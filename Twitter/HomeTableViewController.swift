@@ -13,9 +13,14 @@ class HomeTableViewController: UITableViewController {
     var tweetArray = [NSDictionary]()
     var numberOfTweets: Int!
 
+    let myRefreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadTweet()
+        loadTweets()
+        
+        myRefreshControl.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
+        tableView.refreshControl = myRefreshControl
     }
     
     @IBAction func onLogout(_ sender: Any) {
@@ -25,9 +30,8 @@ class HomeTableViewController: UITableViewController {
     }
     
     
-    func loadTweet(){
-        
-        let myUrl = "https://api.twitter.com/1.1/statuses/user_timeline.json"
+    @objc func loadTweets(){
+        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
         let myParameters = ["count": 10]
         
         TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParameters, success: { (tweets: [NSDictionary]) in
@@ -38,11 +42,18 @@ class HomeTableViewController: UITableViewController {
             }
                 
             self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
             
         }, failure: { (Error) in
             print("Could not retrieve tweets!")
         })
         
+    }
+    
+    
+    func loadMoreTweets(){
+        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let myParameters = ["count": 10]
     }
     
     
@@ -53,6 +64,13 @@ class HomeTableViewController: UITableViewController {
         
         cell.userNameLabel.text = user["name"] as? String
         cell.tweetContent.text = tweetArray[indexPath.row]["text"] as? String
+        
+        let imageUrl = URL(string: (user["profile_image_url_https"] as? String)!)
+        let data = try? Data(contentsOf: imageUrl!)
+        
+        if let imageData = data {
+            cell.profileImageView.image = UIImage(data: imageData)
+        }
         
         return cell
     }
