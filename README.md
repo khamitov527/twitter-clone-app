@@ -1,4 +1,4 @@
-# Project 3 - Twitter Clone App
+# Twitter Clone App
 
 **Twitter Clone App** is a basic twitter app to read your tweets.
 
@@ -23,5 +23,5 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://github.com/khamitov527/twitter_ios_starter/blob/main/twitter_ios_starter.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/khamitov527/twitter_ios_starter/blob/main/twitter_ios_starter.gif' title='Video Walkthrough' width=250 alt='Video Walkthrough' />
 
